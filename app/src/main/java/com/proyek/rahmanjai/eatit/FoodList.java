@@ -57,6 +57,9 @@ public class FoodList extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_food);
         recyclerView.setHasFixedSize(true);
 
+        //GridLayoutManager mLayoutManager = (GridLayoutManager)recyclerView.getLayoutManager();
+        //mLayoutManager.setSpanCount(2);
+
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(mLayoutManager);
 

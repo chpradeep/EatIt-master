@@ -1,6 +1,10 @@
 package com.proyek.rahmanjai.eatit;
 
+import android.Manifest;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.proyek.rahmanjai.eatit.Common.Common;
@@ -65,10 +70,15 @@ public class Cart extends AppCompatActivity {
         btnPlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (cart.size() > 0)
-                    showAlertDialog();
-                else
-                    Toast.makeText(Cart.this, "Your Cart is Empty!!", Toast.LENGTH_SHORT).show();
+                if(Common.currentUser.getPhone() == "asdfgasdfg"){
+                    Toast.makeText(Cart.this, "Kindly Register to place order!!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    if (cart.size() > 0)
+                        showAlertDialog();
+                    else
+                        Toast.makeText(Cart.this, "Your Cart is Empty!!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         
@@ -92,6 +102,11 @@ public class Cart extends AppCompatActivity {
         alertDialog.setPositiveButton("YA", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
+                if (ContextCompat.checkSelfPermission(Cart.this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(Cart.this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS}, 101);
+                }
+
                 // Create new Request
                 Request request = new Request(
                         Common.currentUser.getPhone(),
@@ -103,7 +118,7 @@ public class Cart extends AppCompatActivity {
 
                 // Submit ke Firebase
                 // We Will using System.CurrentMilli to Key
-                requests.child(String.valueOf(System.currentTimeMillis()))
+                requests.child(Common.currentUser.getPhone()+String.valueOf(System.currentTimeMillis()))
                         .setValue(request);
                 //Delete cart
                 new Database(getBaseContext()).cleanCart();

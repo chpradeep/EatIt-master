@@ -1,5 +1,6 @@
 package com.proyek.rahmanjai.eatit;
 
+import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Button;
 
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.google.firebase.database.DataSnapshot;
@@ -21,13 +23,17 @@ import com.proyek.rahmanjai.eatit.Model.Food;
 import com.proyek.rahmanjai.eatit.Model.Order;
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class FoodDetail extends AppCompatActivity {
 
-    TextView food_name, food_price, food_description;
+    TextView food_name, food_price, food_description, item_value;
     ImageView food_image;
     CollapsingToolbarLayout collapsingToolbarLayout;
-    FloatingActionButton btnCart;
+    Button btnCart;
     ElegantNumberButton numberButton;
+    NumberFormat fmt;
 
     String foodId="";
 
@@ -40,6 +46,9 @@ public class FoodDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_detail);
 
+        Locale locale = new Locale("en","IN");
+        fmt = NumberFormat.getCurrencyInstance(locale);
+
         //Firbase
         database = FirebaseDatabase.getInstance();
         foods = database.getReference("Foods");
@@ -47,6 +56,18 @@ public class FoodDetail extends AppCompatActivity {
         // Init view
         numberButton = findViewById(R.id.number_button);
         btnCart = findViewById(R.id.btnCart);
+
+        numberButton.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
+           @Override
+           public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
+                int total = Integer.parseInt(currentFood.getPrice()) * newValue;
+                item_value.setText(fmt.format(total));
+                if(newValue>0)
+                    btnCart.setEnabled(true);
+                else
+                    btnCart.setEnabled(false);
+           }
+        });
 
         btnCart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +89,7 @@ public class FoodDetail extends AppCompatActivity {
         food_name = findViewById(R.id.food_name);
         food_price = findViewById(R.id.food_price);
         food_image = findViewById(R.id.img_food);
+        item_value = findViewById(R.id.item_value);
 
         collapsingToolbarLayout = findViewById(R.id.collapsing);
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppbar);
@@ -84,6 +106,15 @@ public class FoodDetail extends AppCompatActivity {
             }
         }
 
+        FloatingActionButton showCart = findViewById(R.id.showCart);
+        showCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent cartIntent = new Intent(FoodDetail.this, Cart.class);
+                startActivity(cartIntent);
+            }
+        });
+
     }
 
     private void getDetailFood(String foodId) {
@@ -98,7 +129,7 @@ public class FoodDetail extends AppCompatActivity {
 
                 collapsingToolbarLayout.setTitle(currentFood.getName());
 
-                food_price.setText(currentFood.getPrice());
+                food_price.setText(fmt.format(Integer.parseInt(currentFood.getPrice())));
 
                 food_name.setText(currentFood.getName());
 

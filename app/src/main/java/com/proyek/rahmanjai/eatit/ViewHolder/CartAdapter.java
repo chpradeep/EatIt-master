@@ -88,7 +88,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder>{
         holder.quantity.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
             @Override
             public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
-                Log.d("update cart", String.format("oldValue: %d   newValue: %d position: %d", oldValue, newValue , position));
+                //Log.d("update cart", String.format("oldValue: %d   newValue: %d position: %d", oldValue, newValue , position));
                 Cart c = (Cart)context;
                 if(newValue==0){
                     c.deleteCart(position);
