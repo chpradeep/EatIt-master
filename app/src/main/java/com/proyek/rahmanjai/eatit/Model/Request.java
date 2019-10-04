@@ -13,18 +13,22 @@ public class Request {
     private String total;
     private String status;
     private List<Order> foods; // list of food order
+    private String txnid;
+    private String paytm;
 
     public Request() {
 
     }
 
-    public Request(String phone, String name, String address, String total, List<Order> foods) {
+    public Request(String phone, String name, String address, String total, String txnid, String paytm, List<Order> foods) {
         this.phone = phone;
         this.name = name;
         this.address = address;
         this.total = total;
         this.foods = foods;
         this.status = "0"; // Default is 0, 0 diletakan, 1 dibungkus, 2 diantar.
+        this.txnid = txnid;
+        this.paytm = paytm;
     }
 
     public String getStatus() {
@@ -73,5 +77,21 @@ public class Request {
 
     public void setFoods(List<Order> foods) {
         this.foods = foods;
+    }
+
+    public String getTxnid() {
+        return txnid;
+    }
+
+    public void setTxnid(String txnid) {
+        this.txnid = txnid;
+    }
+
+    public String getPaytm() {
+        return paytm;
+    }
+
+    public void setPaytm(String paytm) {
+        this.paytm = paytm;
     }
 }

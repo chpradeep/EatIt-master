@@ -2,19 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#009688"
+    android:padding="20dp"
     tools:context="com.proyek.rahmanjai.eatit.SignIn">
 
     <LinearLayout
+
+        android:id="@+id/linearLayout2"
         android:orientation="vertical"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/linearLayout2">
+        android:layout_height="wrap_content">
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/edtPhone"
@@ -27,7 +27,7 @@
             android:inputType="phone"
             app:met_baseColor="@android:color/white"
             app:met_floatingLabel="highlight"
-            app:met_maxCharacters="12"
+            app:met_maxCharacters="10"
             app:met_primaryColor="@android:color/white"
             app:met_singleLineEllipsis="true"
             />
@@ -43,7 +43,6 @@
             android:inputType="textPassword"
             app:met_baseColor="@android:color/white"
             app:met_floatingLabel="highlight"
-            app:met_minCharacters="4"
             app:met_primaryColor="@android:color/white"
             app:met_singleLineEllipsis="true"
             />
@@ -58,10 +57,10 @@
         android:layout_below="@+id/linearLayout2"
         android:layout_weight="1"
         android:text="Sign In"
-        android:textColor="@android:color/white"
+        android:textColor="#009688"
         app:cornerRadius="4dp"
-        app:fButtonColor="@color/btnSignUpActive"
-        app:shadowColor="@android:color/black"
+        app:fButtonColor="@android:color/white"
+        app:shadowColor="#EEEEEE"
         app:shadowEnabled="true"
         app:shadowHeight="5dp" />
 

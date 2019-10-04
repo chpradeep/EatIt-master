@@ -1,6 +1,7 @@
 package com.proyek.rahmanjai.eatit;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -127,6 +128,15 @@ public class FoodList extends AppCompatActivity {
 
             }
         });
+
+        FloatingActionButton showCart = findViewById(R.id.fab);
+        showCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent cartIntent = new Intent(FoodList.this, Cart.class);
+                startActivity(cartIntent);
+            }
+        });
     }
 
     private void startSearch(CharSequence text) {
@@ -205,4 +215,6 @@ public class FoodList extends AppCompatActivity {
         // Set Adapter
         recyclerView.setAdapter(adapter);
     }
+
+
 }

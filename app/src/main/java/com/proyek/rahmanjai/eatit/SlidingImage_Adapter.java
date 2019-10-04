@@ -57,21 +57,21 @@ public class SlidingImage_Adapter extends PagerAdapter {
                     .into(imageView, new Callback() {
                         @Override
                         public void onSuccess() {
-                            Log.d("Picasso", "Image loaded from cache>>>" + url);
+                            //Log.d("Picasso", "Image loaded from cache>>>" + url);
                         }
 
                         @Override
                         public void onError() {
-                            Log.d("Picasso", "Try again in ONLINE mode if load from cache is failed");
+                            //Log.d("Picasso", "Try again in ONLINE mode if load from cache is failed");
                             Picasso.with(context).load(url).into(imageView, new Callback() {
                                 @Override
                                 public void onSuccess() {
-                                    Log.d("Picasso", "Image loaded from web>>>" + url);
+                                    //Log.d("Picasso", "Image loaded from web>>>" + url);
                                 }
 
                                 @Override
                                 public void onError() {
-                                    Log.d("Picasso", "Failed to load image online and offline, make sure you enabled INTERNET permission for your app and the url is correct>>>>>>>" + url);
+                                    //Log.d("Picasso", "Failed to load image online and offline, make sure you enabled INTERNET permission for your app and the url is correct>>>>>>>" + url);
                                 }
                             });
                         }

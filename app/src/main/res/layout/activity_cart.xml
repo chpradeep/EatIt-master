@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="@drawable/my_bg"
     tools:context="com.proyek.rahmanjai.eatit.Cart">
 
     <android.support.v7.widget.RecyclerView
@@ -51,7 +50,7 @@
             <info.hoang8f.widget.FButton
                 android:id="@+id/btnPlaceOrder"
                 android:text="Place Order"
-                android:textColor="@android:color/white"
+                android:textColor="@color/colorPrimaryDark"
                 android:layout_marginRight="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_alignParentBottom="true"
@@ -60,8 +59,8 @@
                 android:layout_margin="8dp"
                 android:layout_weight="1"
                 app:cornerRadius="4dp"
-                app:fButtonColor="@color/btnSignUpActive"
-                app:shadowColor="@android:color/black"
+                app:fButtonColor="@color/white"
+                app:shadowColor="#EEEEEE"
                 app:shadowEnabled="true"
                 app:shadowHeight="5dp" />
 

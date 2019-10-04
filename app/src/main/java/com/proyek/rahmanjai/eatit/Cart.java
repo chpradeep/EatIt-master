@@ -2,6 +2,7 @@ package com.proyek.rahmanjai.eatit;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -49,6 +50,9 @@ public class Cart extends AppCompatActivity {
 
     CartAdapter adapter;
 
+    int total=0;
+    EditText edtAddress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +74,7 @@ public class Cart extends AppCompatActivity {
         btnPlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Common.currentUser.getPhone() == "asdfgasdfg"){
+                if(Common.currentUser.getNama() == "Guest"){
                     Toast.makeText(Cart.this, "Kindly Register to place order!!", Toast.LENGTH_SHORT).show();
                 }
                 else {
@@ -90,7 +94,7 @@ public class Cart extends AppCompatActivity {
         alertDialog.setTitle("One more step!");
         alertDialog.setMessage("Enter your address: ");
 
-        final EditText edtAddress = new EditText(Cart.this);
+        edtAddress = new EditText(Cart.this);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT
@@ -107,23 +111,20 @@ public class Cart extends AppCompatActivity {
                     ActivityCompat.requestPermissions(Cart.this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS}, 101);
                 }
 
-                // Create new Request
-                Request request = new Request(
-                        Common.currentUser.getPhone(),
-                        Common.currentUser.getNama(),
-                        edtAddress.getText().toString(),
-                        txtTotalPrice.getText().toString(),
-                        cart
-                );
+
+                Intent intent = new Intent(Cart.this, checksum.class);
+                intent.putExtra("custid", Common.currentUser.getPhone());
+                intent.putExtra("amount", ""+total);
+                startActivityForResult(intent , 1);
 
                 // Submit ke Firebase
                 // We Will using System.CurrentMilli to Key
-                requests.child(Common.currentUser.getPhone()+String.valueOf(System.currentTimeMillis()))
+                /*requests.child(Common.currentUser.getPhone()+String.valueOf(System.currentTimeMillis()))
                         .setValue(request);
                 //Delete cart
                 new Database(getBaseContext()).cleanCart();
                 Toast.makeText(Cart.this, "Thank you for ordering!", Toast.LENGTH_SHORT).show();
-                finish();
+                finish();*/
             }
         });
 
@@ -137,6 +138,38 @@ public class Cart extends AppCompatActivity {
         alertDialog.show();
     }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK) {
+                Bundle bundle = data.getBundleExtra("TXN");
+                    // Create new Request
+                    Request request = new Request(
+                            Common.currentUser.getPhone(),
+                            Common.currentUser.getNama(),
+                            edtAddress.getText().toString(),
+                            txtTotalPrice.getText().toString(),
+                            bundle.getString("TXNID"),
+                            bundle.toString(),
+                            cart
+                    );
+                    requests.child(bundle.getString("ORDERID")).setValue(request);
+                    //Delete cart
+                    new Database(getBaseContext()).cleanCart();
+                    Toast.makeText(Cart.this, "Thank you for ordering!", Toast.LENGTH_SHORT).show();
+                    finish();
+
+            }
+            else if(resultCode == RESULT_CANCELED){
+                Bundle err = data.getBundleExtra("ERROR");
+                Toast.makeText(Cart.this, "TRANACTION FAILED : "+err.getString("RESPMSG") , Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(Cart.this, "Transaction Failed!", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     private void loadListFood() {
         cart = new Database(this).getCarts();
         adapter = new CartAdapter(cart, this);
@@ -144,7 +177,7 @@ public class Cart extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         // Kalkulasi total harga
-        int total = 0;
+        total = 0;
         for(Order order:cart)
             total+=(Integer.parseInt(order.getPrice())) * (Integer.parseInt(order.getQuantity()));
         Locale locale = new Locale("en","IN");

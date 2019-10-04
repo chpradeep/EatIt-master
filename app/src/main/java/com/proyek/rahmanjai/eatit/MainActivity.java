@@ -8,10 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.proyek.rahmanjai.eatit.Common.Common;
+import com.proyek.rahmanjai.eatit.Model.User;
+
 public class MainActivity extends AppCompatActivity {
 
     Button btnSignIn, btnSignUp;
-    TextView txtSlogan;
+    TextView txtSlogan , guest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
         btnSignIn =  findViewById(R.id.btnSignIn);
         btnSignUp = findViewById(R.id.btnSignUp);
+
+        guest = findViewById(R.id.guest);
 
         txtSlogan = findViewById(R.id.txtSlogan);
         Typeface face = Typeface.createFromAsset(getAssets(), "fonts/NABILA.TTF");
@@ -40,6 +45,19 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(signIn);
             }
         });
+
+        guest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                User gUser = new User("Guest","Guest");
+                gUser.setPhone("0000000000");
+                Common.currentUser = gUser;
+                Intent signIn = new Intent (MainActivity.this, Home.class);
+                startActivity(signIn);
+            }
+        });
+
+
 
     }
 }

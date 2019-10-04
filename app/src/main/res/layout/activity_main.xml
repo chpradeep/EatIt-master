@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
+    android:background="#009688"
     tools:context="com.proyek.rahmanjai.eatit.MainActivity">
 
     <LinearLayout
@@ -26,7 +26,7 @@
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:text="@string/slogan"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:textSize="18sp" />
 
         <LinearLayout
@@ -43,10 +43,10 @@
                 android:layout_margin="8dp"
                 android:layout_weight="1"
                 android:text="Sign Up"
-                android:textColor="@android:color/white"
+                android:textColor="#00635a"
                 app:cornerRadius="4dp"
-                app:fButtonColor="@color/btnSignUp"
-                app:shadowColor="@android:color/black"
+                app:fButtonColor="@android:color/white"
+                app:shadowColor="#EEEEEE"
                 app:shadowEnabled="true"
                 app:shadowHeight="5dp" />
 
@@ -58,22 +58,22 @@
                 android:layout_margin="8dp"
                 android:layout_weight="1"
                 android:text="Sign In"
-                android:textColor="@android:color/white"
+                android:textColor="#00635a"
                 app:cornerRadius="4dp"
-                app:fButtonColor="@color/btnSignUpActive"
-                app:shadowColor="@android:color/black"
+                app:fButtonColor="@android:color/white"
+                app:shadowColor="#EEEEEE"
                 app:shadowEnabled="true"
                 app:shadowHeight="5dp" />
 
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/guest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:text="Guest Login"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:textAlignment="center" />
 
     </LinearLayout>

@@ -5,19 +5,30 @@ package com.proyek.rahmanjai.eatit.Model;
  */
 
 public class Food {
-    private String Name, Image, Description, Price, Discount, MenuId;
+    private String Name;
+    private String Image;
+    private String Description;
+    private String Price;
+    private String Discount;
+    private String MenuId;
+    private String Inc;
+    private String Min;
+    private String Units;
 
     public Food() {
 
     }
 
-    public Food(String name, String image, String description, String price, String discount, String menuId) {
+    public Food(String name, String image, String description, String price, String discount, String menuId, String min, String units, String inc) {
         Name = name;
         Image = image;
         Description = description;
         Price = price;
         Discount = discount;
         MenuId = menuId;
+        Min = min;
+        Units = units;
+        Inc = inc;
     }
 
     public String getName() {
@@ -66,5 +77,29 @@ public class Food {
 
     public void setMenuId(String menuId) {
         MenuId = menuId;
+    }
+
+    public String getInc() {
+        return Inc;
+    }
+
+    public void setInc(String inc) {
+        Inc = inc;
+    }
+
+    public String getMin() {
+        return Min;
+    }
+
+    public void setMin(String min) {
+        Min = min;
+    }
+
+    public String getUnits() {
+        return Units;
+    }
+
+    public void setUnits(String units) {
+        Units = units;
     }
 }
