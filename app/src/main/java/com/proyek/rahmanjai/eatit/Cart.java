@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,7 +51,7 @@ public class Cart extends AppCompatActivity {
 
     CartAdapter adapter;
 
-    int total=0;
+    float total=0;
     EditText edtAddress;
 
     @Override
@@ -103,7 +104,7 @@ public class Cart extends AppCompatActivity {
         alertDialog.setView(edtAddress); // menambahkan edit text ke alert dialog
         alertDialog.setIcon(R.drawable.ic_shopping_cart_black_24dp);
 
-        alertDialog.setPositiveButton("YA", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -157,6 +158,8 @@ public class Cart extends AppCompatActivity {
                     //Delete cart
                     new Database(getBaseContext()).cleanCart();
                     Toast.makeText(Cart.this, "Thank you for ordering!", Toast.LENGTH_SHORT).show();
+                    Intent orderIntent = new Intent(Cart.this, OrderStatus.class);
+                    startActivity(orderIntent);
                     finish();
 
             }
@@ -178,12 +181,12 @@ public class Cart extends AppCompatActivity {
 
         // Kalkulasi total harga
         total = 0;
-        for(Order order:cart)
-            total+=(Integer.parseInt(order.getPrice())) * (Integer.parseInt(order.getQuantity()));
+        for(Order order:cart) {
+            total += (Float.parseFloat(order.getPrice())) * (Float.parseFloat(order.getQuantity()));
+        }
         Locale locale = new Locale("en","IN");
         NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
-
-        txtTotalPrice.setText(fmt.format(total));
+        txtTotalPrice.setText(fmt.format(Float.parseFloat(String.format("%.2f", total))));
     }
 
     @Override
@@ -215,6 +218,39 @@ public class Cart extends AppCompatActivity {
         //refresh
         loadListFood();
     }
+
+    public void incrementQty(int position) {
+        Order cart_item = cart.get(position);
+        float qty = Float.parseFloat(cart_item.getQuantity());
+        qty += Float.parseFloat(cart_item.getInc());
+        cart_item.setQuantity(""+qty);
+        new Database(this).cleanCart();
+        //dan terakhir, kita akan mengupdate data baru dari List<Order> ke SQlite
+        for (Order item:cart)
+            new Database(this).addToCart(item);
+        //refresh
+        loadListFood();
+    }
+
+    public void decrementQty(int position) {
+        Order cart_item = cart.get(position);
+        float qty = Float.parseFloat(cart_item.getQuantity());
+        if(qty == Float.parseFloat(cart_item.getMin())){
+            cart.remove(position);
+        }
+        else {
+            qty -= Float.parseFloat(cart_item.getInc());
+            cart_item.setQuantity("" + qty);
+        }
+        new Database(this).cleanCart();
+        //dan terakhir, kita akan mengupdate data baru dari List<Order> ke SQlite
+        for (Order item:cart)
+            new Database(this).addToCart(item);
+        //refresh
+        loadListFood();
+    }
+
+
 }
 
 

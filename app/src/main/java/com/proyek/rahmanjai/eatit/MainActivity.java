@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.proyek.rahmanjai.eatit.Common.Common;
+import com.proyek.rahmanjai.eatit.Database.Database;
 import com.proyek.rahmanjai.eatit.Model.User;
 
 public class MainActivity extends AppCompatActivity {

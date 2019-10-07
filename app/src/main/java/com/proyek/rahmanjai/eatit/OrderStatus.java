@@ -1,5 +1,6 @@
 package com.proyek.rahmanjai.eatit;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -60,7 +61,16 @@ public class OrderStatus extends AppCompatActivity {
         ) {
             @Override
             protected void populateViewHolder(OrderViewHolder viewHolder, Request model, int position) {
-                viewHolder.txtOrderId.setText(adapter.getRef(position).getKey());
+                String temp = adapter.getRef(position).getKey();
+                temp = temp.replace("_"+model.getPhone() , "");
+                viewHolder.txtOrderId.setText(temp);
+                int status = Integer.parseInt(model.getStatus());
+                if(status ==0)
+                    viewHolder.txtOrderStatus.setTextColor(Color.RED);
+                else if(status==1)
+                    viewHolder.txtOrderStatus.setTextColor(Color.GREEN);
+                else
+                    viewHolder.txtOrderStatus.setTextColor(Color.BLACK);
                 viewHolder.txtOrderStatus.setText(Common.convertCodeToStatus(model.getStatus()));
                 viewHolder.txtOrderAddres.setText(model.getAddress());
                 viewHolder.txtOrderPhone.setText(model.getPhone());

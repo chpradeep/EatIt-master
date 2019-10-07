@@ -27,11 +27,11 @@ public class Database extends SQLiteAssetHelper{
     public List<Order> getCarts(){
         SQLiteDatabase db = getReadableDatabase();
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-
-        String[] sqlSelect = {"ProductName", "ProductId","Quantity", "Price", "Discount"};
+        String[] sqlSelect = {"ProductName", "ProductId","Quantity", "Price", "Discount", "Image" , "Inc", "MinQty", "Units" };
         String sqlTable = "OrderDetail";
 
         qb.setTables(sqlTable);
+
         Cursor c = qb.query(db,sqlSelect, null,null,null,null,null);
 
         final  List<Order> result = new ArrayList<>();
@@ -41,8 +41,12 @@ public class Database extends SQLiteAssetHelper{
                         c.getString(c.getColumnIndex("ProductName")),
                         c.getString(c.getColumnIndex("Quantity")),
                         c.getString(c.getColumnIndex("Price")),
-                        c.getString(c.getColumnIndex("Discount"))
-                ));
+                        c.getString(c.getColumnIndex("Discount")),
+                        c.getString(c.getColumnIndex("Image")),
+                        c.getString(c.getColumnIndex("Inc")),
+                        c.getString(c.getColumnIndex("MinQty")),
+                        c.getString(c.getColumnIndex("Units"))
+                        ));
             }while (c.moveToNext());
         }
         return result;
@@ -50,12 +54,17 @@ public class Database extends SQLiteAssetHelper{
 
     public void addToCart(Order order) {
         SQLiteDatabase db = getReadableDatabase();
-        String query = String.format("INSERT INTO OrderDetail(ProductId,ProductName,Quantity,Price,Discount) VALUES ('%s','%s','%s','%s','%s');",
+        String query = String.format("INSERT INTO OrderDetail(ProductId,ProductName,Quantity,Price,Discount,Image , Inc, MinQty, Units) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s');",
+                //String.format("INSERT INTO OrderDetail(ProductId,ProductName,Quantity,Price,Discount) VALUES ('%s','%s','%s','%s','%s');",
                 order.getProductId(),
                 order.getProductName(),
                 order.getQuantity(),
                 order.getPrice(),
-                order.getDiscount());
+                order.getDiscount(),
+                order.getImage(),
+                order.getInc(),
+                order.getMin(),
+                order.getUnits());
         db.execSQL(query);
     }
 

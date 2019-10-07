@@ -9,8 +9,8 @@
     >
 
     <LinearLayout
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:orientation="horizontal"
         android:layout_gravity="center_vertical"
         android:layout_width="match_parent"
@@ -18,91 +18,118 @@
 
         <ImageView
             android:layout_gravity="center_vertical|end"
-            android:layout_marginRight="16dp"
+            android:layout_marginRight="8dp"
             android:id="@+id/cart_item_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginLeft="16dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginLeft="8dp"
             android:src="@drawable/app_icon"/>
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_weight="8"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:weightSum="2">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal"
-                android:layout_weight="1"
-                android:weightSum="2">
 
             <TextView
-                android:id="@+id/cart_item_name"
-                android:gravity="center_vertical|start"
-                android:textAllCaps="true"
-                android:textStyle="bold"
-                android:text="Food 01"
+                android:id="@+id/food_name"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_weight="1"/>
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="Device Name"
+                android:layout_centerVertical="true"
+                android:textColor="@color/colorbg"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
 
             <TextView
-                android:id="@+id/cart_item_cost"
-                android:gravity="center_vertical|end"
-                android:textAllCaps="true"
-                android:textStyle="bold"
-                android:text="1000"
+                android:id="@+id/food_price"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_weight="1"/>
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:text="Rs.200/0.5Kg"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:textStyle="bold" />
 
-            <LinearLayout
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="5dp"
+                    android:weightSum="5"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/decQty"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/btn_round"
+                        android:text="-"
+                        android:textColor="@color/white"
+                        android:textSize="24sp"
+                        android:layout_weight="1"
+                        android:textStyle="bold"></Button>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/item_value"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:text="0"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/quantity"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:textAlignment="center"
+                            android:text="0.0Units"></TextView>
+
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/incQty"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/btn_round"
+                        android:text="+"
+                        android:textColor="@color/white"
+                        android:textSize="24sp"
+                        android:layout_weight="1"
+                        android:textStyle="bold"></Button>
+
+                </LinearLayout>
+            <TextView
+                android:id="@+id/minimum"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal"
-                android:layout_weight="1"
-                android:weightSum="2">
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:text="Minium quantity required is 1 KG"/>
 
-                <TextView
-                    android:id="@+id/cart_item_price"
-                    android:layout_gravity="center"
-                    android:textAllCaps="true"
-                    android:textStyle="italic"
-                    android:text="100,000"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_weight="0.5"
-                    />
-
-                <TextView
-                    android:id="@+id/cart_item_units"
-                    android:layout_gravity="center"
-                    android:textAllCaps="true"
-                    android:textStyle="italic"
-                    android:text="100,000"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_weight="0.5"
-                    />
-
-                <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:id="@+id/quantity"
-                    android:layout_gravity="center"
-                    app:textSize="8sp"
-                    app:backGroundColor="@color/colorAccent"
-                    app:initialNumber="1"
-                    app:finalNumber="20"
-                    android:layout_weight="1"
-                    />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/availability"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:text="Available in multiples of 0.5 KG"/>
         </LinearLayout>
     </LinearLayout>
 

@@ -5,6 +5,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -126,14 +127,23 @@ public class FoodDetail extends AppCompatActivity {
         btnCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String qty = order_qty.getText().toString();
+                if(qty.contains(currentFood.getUnits())) {
+                    Log.i("theStringIs" , qty);
+                    qty = qty.replace(currentFood.getUnits(), "");
+                    Log.i("theStringIs" , qty);
+                }
                 new Database(getBaseContext()).addToCart(new Order(
                         foodId,
                         currentFood.getName(),
-                        currentQty+"",
+                        qty,
                         currentFood.getPrice(),
-                        currentFood.getDiscount()
-
-                ));
+                        currentFood.getDiscount(),
+                        currentFood.getImage(),
+                        currentFood.getInc(),
+                        currentFood.getMin(),
+                        currentFood.getUnits()
+                        ));
 
                 Toast.makeText(FoodDetail.this, "Added to Shopping Cart", Toast.LENGTH_SHORT).show();
             }
