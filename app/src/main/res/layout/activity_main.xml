@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#009688"
+    android:background="@color/colorPrimary"
     tools:context="com.proyek.rahmanjai.eatit.MainActivity">
 
     <LinearLayout
@@ -43,7 +43,7 @@
                 android:layout_margin="8dp"
                 android:layout_weight="1"
                 android:text="Sign Up"
-                android:textColor="#00635a"
+                android:textColor="@color/colorPrimary"
                 app:cornerRadius="4dp"
                 app:fButtonColor="@android:color/white"
                 app:shadowColor="#EEEEEE"
@@ -58,7 +58,7 @@
                 android:layout_margin="8dp"
                 android:layout_weight="1"
                 android:text="Sign In"
-                android:textColor="#00635a"
+                android:textColor="@color/colorPrimary"
                 app:cornerRadius="4dp"
                 app:fButtonColor="@android:color/white"
                 app:shadowColor="#EEEEEE"
