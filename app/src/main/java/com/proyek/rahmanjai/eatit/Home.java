@@ -1,7 +1,9 @@
 package com.proyek.rahmanjai.eatit;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -24,6 +26,7 @@ import android.widget.Toast;
 
 import android.support.v4.view.ViewPager;
 
+import com.google.firebase.database.Query;
 import com.squareup.picasso.RequestCreator;
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -48,7 +51,7 @@ public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     FirebaseDatabase database;
-    DatabaseReference category;
+    DatabaseReference category,foodList;
     DatabaseReference adds;
 
     TextView txtFullName, menu_name;
@@ -67,10 +70,12 @@ public class Home extends AppCompatActivity
     private ArrayList<RequestCreator> Imgs = new ArrayList<RequestCreator>();
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Menu");
@@ -79,6 +84,8 @@ public class Home extends AppCompatActivity
         //Init Firebase
         database = FirebaseDatabase.getInstance();
         category = database.getReference("Category");
+
+        foodList = database.getReference("Foods");
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -108,8 +115,10 @@ public class Home extends AppCompatActivity
         recycler_menu = findViewById(R.id.recycle_menu);
         recycler_menu.setHasFixedSize(true);
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
         recycler_menu.setLayoutManager(mLayoutManager);
+
+
 
         //layoutManager = new LinearLayoutManager(this);
         //recycler_menu.setLayoutManager(layoutManager);
@@ -219,6 +228,12 @@ public class Home extends AppCompatActivity
             @Override
             protected void populateViewHolder(MenuViewHolder viewHolder, Category model, int position) {
                 viewHolder.txtMenuName.setText(model.getNama());
+                viewHolder.itemCnt.setText(""+model.getCount()+" Customizations");
+                viewHolder.txtMenuName.setTextColor(model.getColor());
+                Typeface face = Typeface.createFromAsset(getAssets(), "fonts/Publica Sans W00 Light.ttf");
+                viewHolder.txtMenuName.setTypeface(face);
+                viewHolder.itemCnt.setTypeface(face);
+
                 Picasso.with(getBaseContext()).load(model.getImage())
                         .into(viewHolder.imageView);
                 final Category clickItem = model;

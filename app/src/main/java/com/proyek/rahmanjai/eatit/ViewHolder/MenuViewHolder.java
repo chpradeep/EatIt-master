@@ -15,7 +15,7 @@ import com.proyek.rahmanjai.eatit.R;
 
 public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-    public TextView txtMenuName;
+    public TextView txtMenuName,itemCnt;
     public ImageView imageView;
 
     private ItemClickListener itemClickListener;
@@ -25,6 +25,7 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
         txtMenuName = itemView.findViewById(R.id.menu_name);
         imageView = itemView.findViewById(R.id.menu_image);
+        itemCnt = itemView.findViewById(R.id.itemCnt);
 
         itemView.setOnClickListener(this);
     }
