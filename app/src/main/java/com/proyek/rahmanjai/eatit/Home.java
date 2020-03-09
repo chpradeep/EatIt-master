@@ -229,7 +229,7 @@ public class Home extends AppCompatActivity
             protected void populateViewHolder(MenuViewHolder viewHolder, Category model, int position) {
                 viewHolder.txtMenuName.setText(model.getNama());
                 viewHolder.itemCnt.setText(""+model.getCount()+" Customizations");
-                viewHolder.txtMenuName.setTextColor(model.getColor());
+                //viewHolder.txtMenuName.setTextColor(model.getColor());
                 Typeface face = Typeface.createFromAsset(getAssets(), "fonts/Publica Sans W00 Light.ttf");
                 viewHolder.txtMenuName.setTypeface(face);
                 viewHolder.itemCnt.setTypeface(face);

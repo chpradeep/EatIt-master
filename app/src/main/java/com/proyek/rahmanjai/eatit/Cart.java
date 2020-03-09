@@ -1,9 +1,13 @@
 package com.proyek.rahmanjai.eatit;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -15,9 +19,12 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import android.net.Uri;
 
@@ -32,6 +39,8 @@ import com.proyek.rahmanjai.eatit.ViewHolder.CartAdapter;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -50,7 +59,7 @@ public class Cart extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference requests;
 
-    TextView txtTotalPrice;
+    TextView txtTotalPrice,scheduleTime,scheduleDate;
     FButton btnPlace;
 
     List<Order> cart = new ArrayList<>();
@@ -65,6 +74,9 @@ public class Cart extends AppCompatActivity {
     String GPayNote = "";
     String GPayAmount = "";
     final int UPI_PAYMENT = 0;
+
+    boolean isScheduled = false;
+    int sDay = 0,sMonth=0,sYear=0,sHour=0,sMin=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +96,9 @@ public class Cart extends AppCompatActivity {
         txtTotalPrice = findViewById(R.id.total);
         btnPlace = findViewById(R.id.btnPlaceOrder);
 
+        scheduleDate = findViewById(R.id.scheduleDate);
+        scheduleTime = findViewById(R.id.scheduleTime);
+
         btnPlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,6 +115,82 @@ public class Cart extends AppCompatActivity {
         });
         
         loadListFood();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void onCheckboxClicked(final View view) {
+        // Is the view now checked?
+        boolean checked = ((CheckBox) view).isChecked();
+        Log.d("cbox","clicked"+checked);
+
+         if (checked) {
+             // Get Current Date
+             final Calendar c = Calendar.getInstance();
+             int mYear = c.get(Calendar.YEAR);
+             int mMonth = c.get(Calendar.MONTH);
+             int mDay = c.get(Calendar.DAY_OF_MONTH);
+             int mHour = c.get(Calendar.HOUR_OF_DAY);
+             int mMinute = c.get(Calendar.MINUTE);
+
+             DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                     new DatePickerDialog.OnDateSetListener() {
+                         @Override
+                         public void onDateSet(DatePicker view, int year,
+                                               int monthOfYear, int dayOfMonth) {
+                             Log.d("setDate",dayOfMonth+","+monthOfYear+","+year);
+                             isScheduled = false;
+                             sDay = dayOfMonth;sMonth=monthOfYear+1;sYear=year;;
+                             scheduleDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                         }
+                     }, mYear, mMonth, mDay);
+             datePickerDialog.setCancelable(true);
+             datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel",
+                     new DialogInterface.OnClickListener() {
+                         @Override
+                         public void onClick(DialogInterface dialog, int which) {
+                             //Log.d("Picker", "Cancel!");
+                             ((CheckBox) view).setChecked(false);
+                             isScheduled = false;
+                             sDay = 0;sMonth=0;sYear=0;sHour=0;sMin=0;
+                             scheduleDate.setText("DD-YY-YYYY");
+                             scheduleTime.setText("HH:MM");
+                         }
+                     });
+             datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+             datePickerDialog.show();
+             // Launch Time Picker Dialog
+             TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                     new TimePickerDialog.OnTimeSetListener() {
+                         @Override
+                         public void onTimeSet(TimePicker view, int hourOfDay,
+                                               int minute) {
+                            Log.d("setDate",hourOfDay+":"+minute);
+                             isScheduled = true;
+                             sHour=hourOfDay;sMin=minute;
+                             scheduleTime.setText(hourOfDay + ":" + minute);
+                         }
+                     }, mHour, mMinute, true);
+             timePickerDialog.setCancelable(true);
+             timePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel",
+                     new DialogInterface.OnClickListener() {
+                         @Override
+                         public void onClick(DialogInterface dialog, int which) {
+                             //Log.d("Picker", "TimeCancel!");
+                             ((CheckBox) view).setChecked(false);
+                             isScheduled = false;
+                             sDay = 0;sMonth=0;sYear=0;sHour=0;sMin=0;
+                             scheduleDate.setText("DD-YY-YYYY");
+                             scheduleTime.setText("HH:MM");
+
+                         }
+                     });
+             timePickerDialog.show();
+         }
+
+         else {
+             scheduleDate.setText("DD-YY-YYYY");
+             scheduleTime.setText("HH:MM");
+         }
     }
 
     private void showAlertDialog() {
@@ -165,8 +256,8 @@ public class Cart extends AppCompatActivity {
             .appendQueryParameter("pa", GPayUPIID)
             .appendQueryParameter("pn", GPayUserName)
             //.appendQueryParameter("mc", "your-merchant-code")
-            .appendQueryParameter("tr", Common.currentUser.getPhone()+String.valueOf(System.currentTimeMillis()))
-            .appendQueryParameter("tn", Common.currentUser.getPhone()+String.valueOf(System.currentTimeMillis()))
+            .appendQueryParameter("tr", String.valueOf(System.currentTimeMillis())+"_"+Common.currentUser.getPhone())
+            .appendQueryParameter("tn", "Payment to MeetTooth@Hyderabad")
             .appendQueryParameter("am", ""+total)
             .appendQueryParameter("cu", "INR")
             //.appendQueryParameter("url", "your-transaction-url")
@@ -245,6 +336,10 @@ public class Cart extends AppCompatActivity {
             if (status.equals("success")) {
                 //Code to handle successful transaction here.
                 Bundle bundle = intentData.getBundleExtra("TXN");
+                String schedule = "NOW";
+                if(isScheduled){
+                    schedule = sDay+"-"+sMonth+"-"+sYear+","+sHour+":"+sMin;
+                }
                 // Create new Request
                 Request request = new Request(
                         Common.currentUser.getPhone(),
@@ -253,6 +348,7 @@ public class Cart extends AppCompatActivity {
                         txtTotalPrice.getText().toString(),
                         approvalRefNo,
                         str,
+                        schedule,
                         cart
                 );
                 requests.child(approvalRefNo).setValue(request);

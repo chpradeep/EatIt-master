@@ -16,11 +16,15 @@ public class Request {
     private String txnid;
     private String paytm;
 
+
+
+    private String schedule;
+
     public Request() {
 
     }
 
-    public Request(String phone, String name, String address, String total, String txnid, String paytm, List<Order> foods) {
+    public Request(String phone, String name, String address, String total, String txnid, String paytm, String schedule, List<Order> foods) {
         this.phone = phone;
         this.name = name;
         this.address = address;
@@ -28,6 +32,7 @@ public class Request {
         this.foods = foods;
         this.status = "0"; // Default is 0, 0 diletakan, 1 dibungkus, 2 diantar.
         this.txnid = txnid;
+        this.schedule = schedule;
         this.paytm = paytm;
     }
 
@@ -93,5 +98,13 @@ public class Request {
 
     public void setPaytm(String paytm) {
         this.paytm = paytm;
+    }
+
+    public String getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(String schedule) {
+        this.schedule = schedule;
     }
 }

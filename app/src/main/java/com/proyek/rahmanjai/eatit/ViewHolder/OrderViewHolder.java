@@ -9,7 +9,7 @@ import com.proyek.rahmanjai.eatit.R;
 
 public class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    public TextView txtOrderId, txtOrderStatus, txtOrderPhone, txtOrderAddres;
+    public TextView txtOrderId, txtOrderStatus, txtOrderPhone, txtOrderAddres, txtOrderDate;
 
     private ItemClickListener itemClickListener;
 
@@ -20,6 +20,7 @@ public class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnC
         txtOrderId = itemView.findViewById(R.id.order_id);
         txtOrderStatus = itemView.findViewById(R.id.order_status);
         txtOrderPhone = itemView.findViewById(R.id.order_phone);
+        txtOrderDate = itemView.findViewById(R.id.order_date);
 
         itemView.setOnClickListener(this);
     }

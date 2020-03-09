@@ -15,6 +15,9 @@ import com.proyek.rahmanjai.eatit.Interface.ItemClickListener;
 import com.proyek.rahmanjai.eatit.Model.Request;
 import com.proyek.rahmanjai.eatit.ViewHolder.OrderViewHolder;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class OrderStatus extends AppCompatActivity {
 
     public RecyclerView recyclerView;
@@ -64,6 +67,10 @@ public class OrderStatus extends AppCompatActivity {
                 String temp = adapter.getRef(position).getKey();
                 temp = temp.replace("_"+model.getPhone() , "");
                 viewHolder.txtOrderId.setText(temp);
+                SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");
+                long t = Long.parseLong(temp);
+                Date resultdate = new Date(t);
+                viewHolder.txtOrderDate.setText(""+resultdate);
                 int status = Integer.parseInt(model.getStatus());
                 if(status ==0)
                     viewHolder.txtOrderStatus.setTextColor(Color.RED);
@@ -74,6 +81,7 @@ public class OrderStatus extends AppCompatActivity {
                 viewHolder.txtOrderStatus.setText(Common.convertCodeToStatus(model.getStatus()));
                 viewHolder.txtOrderAddres.setText(model.getAddress());
                 viewHolder.txtOrderPhone.setText(model.getPhone());
+
 
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
